@@ -1,3 +1,60 @@
-[gd_scene format=2]
+[gd_scene load_steps=11 format=2]
 
-[node name="Node2D" type="Node2D"]
+[ext_resource path="res://assets/moon.png" type="Texture" id=1]
+[ext_resource path="res://assets/planet.png" type="Texture" id=2]
+[ext_resource path="res://Moon.gd" type="Script" id=3]
+[ext_resource path="res://Center.gd" type="Script" id=4]
+[ext_resource path="res://Planet.gd" type="Script" id=5]
+[ext_resource path="res://Cannon.gd" type="Script" id=6]
+[ext_resource path="res://assets/cannon.png" type="Texture" id=7]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 119.922
+
+[sub_resource type="CircleShape2D" id=2]
+radius = 28.4728
+
+[sub_resource type="CircleShape2D" id=3]
+radius = 7.62596
+
+[node name="Main" type="Node2D"]
+
+[node name="Center" type="Node2D" parent="."]
+position = Vector2( 960, 540 )
+script = ExtResource( 4 )
+
+[node name="Planet" type="KinematicBody2D" parent="Center"]
+scale = Vector2( 0.5, 0.5 )
+script = ExtResource( 5 )
+
+[node name="Sprite" type="Sprite" parent="Center/Planet"]
+texture = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Center/Planet"]
+shape = SubResource( 1 )
+
+[node name="MoonRotator" type="Node2D" parent="Center"]
+
+[node name="Moon" type="KinematicBody2D" parent="Center/MoonRotator"]
+motion/sync_to_physics = true
+script = ExtResource( 3 )
+
+[node name="Sprite" type="Sprite" parent="Center/MoonRotator/Moon"]
+scale = Vector2( 0.25, 0.25 )
+texture = ExtResource( 1 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Center/MoonRotator/Moon"]
+shape = SubResource( 2 )
+
+[node name="CannonRotator" type="Node2D" parent="Center/MoonRotator/Moon"]
+
+[node name="Cannon" type="KinematicBody2D" parent="Center/MoonRotator/Moon/CannonRotator"]
+script = ExtResource( 6 )
+
+[node name="Sprite" type="Sprite" parent="Center/MoonRotator/Moon/CannonRotator/Cannon"]
+scale = Vector2( 0.1, 0.1 )
+texture = ExtResource( 7 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Center/MoonRotator/Moon/CannonRotator/Cannon"]
+position = Vector2( 0.125, 5 )
+shape = SubResource( 3 )
